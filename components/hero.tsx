@@ -89,20 +89,27 @@ export default function Hero() {
           Creando experiencias digitales elegantes y funcionales. Especializado en Next.js y Node.js con un enfoque en arquitecturas cloud modernas para construir soluciones escalables y eficientes.
         </p>
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-          <Button
-            size="lg"
-            className="group relative overflow-hidden rounded-full px-8 transition-all duration-300 hover:bg-primary/90"
-          >
-            <span className="relative z-10">Conoce mi trabajo</span>
-            <span className="absolute inset-0 bg-gradient-to-r from-primary to-primary-foreground opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
-          </Button>
-          <Button
-            variant="outline"
-            size="lg"
-            className="rounded-full px-8 border-primary text-primary hover:bg-primary/10 hover:text-primary"
-          >
-            Contáctame
-          </Button>
+          <a href="#projects">
+            <Button
+              size="lg"
+              className="group relative overflow-hidden rounded-full px-8 transition-all duration-300 hover:bg-primary/90"
+            >
+              <span className="relative z-10">Conoce mi trabajo</span>
+              <span className="absolute inset-0 bg-gradient-to-r from-primary to-primary-foreground opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
+            </Button>
+
+          </a>
+
+          <a href="#contact">
+            <Button
+              variant="outline"
+              size="lg"
+              className="rounded-full px-8 border-primary text-primary hover:bg-primary/10 hover:text-primary"
+            >
+              Contáctame
+            </Button>
+
+          </a>
         </div>
       </div>
       <div className="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce z-10">

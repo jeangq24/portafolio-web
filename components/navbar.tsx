@@ -45,8 +45,8 @@ export default function Navbar() {
     >
       <div className="container mx-auto px-4 py-4 flex items-center justify-between">
         <Link href="#home" className="text-xl font-bold text-primary">
-          <span className="text-foreground">Dev</span>
-          <span className="text-primary">Portfolio</span>
+          <span className="text-foreground">Jean</span>
+          <span className="text-primary">Dev</span>
         </Link>
 
         {/* Desktop Navigation */}

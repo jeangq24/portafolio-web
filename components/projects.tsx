@@ -36,7 +36,7 @@ export default function Projects() {
       description:
         "Loop Media fue creado para escribir y leer sobre lo que sucede en todo el mundo, sin algoritmos que decidan qué contenido consumes o barreras del idioma. Queremos conectar a escritores y pensadores a nivel mundial, brindándoles acceso a tantos aspectos o “lados de la verdad.”",
       image: "/LoopMedia.png?height=400&width=600",
-      technologies: ["Nextjs", "Firebase", "Flutter", "Google Cloud"],
+      technologies: ["Nextjs", "TailwindCss", "Firebase", "Flutter", "Google Cloud"],
       repoUrl: null,
       demoUrl: "https://loopmedia.app/",
     },
@@ -56,7 +56,7 @@ export default function Projects() {
       description:
         "Landing page para BESTP, la página no solo proporciona una experiencia visual atractiva, sino que también integra funcionalidades avanzadas como el envío automático de correos electrónicos y la recepción de datos directamente en Google Sheets. Esta integración permite gestionar de manera eficiente y  optimizar las campañas publicitarias de manera fluida.",
       image: "/BestP.png?height=400&width=600",
-      technologies: ["Next.js", "TypeScript", "Google API", "Nodemailer"],
+      technologies: ["Next.js", "TailwindCss", "TypeScript", "Google API", "Nodemailer"],
       repoUrl: null,
       demoUrl: "https://bestpweb.vercel.app/",
     },

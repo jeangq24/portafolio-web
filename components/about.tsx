@@ -28,6 +28,7 @@ export default function About() {
   const skills = [
     "JavaScript",
     "Next.js",
+    "TailwindCss",
     "Node.js",
     "Sql",
     "Sequelize",

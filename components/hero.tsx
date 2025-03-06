@@ -92,7 +92,7 @@ export default function Hero() {
           <a href="#projects">
             <Button
               size="lg"
-              className="group relative overflow-hidden rounded-full px-8 transition-all duration-300 hover:bg-primary/90"
+              className="group relative overflow-hidden rounded-full px-8 transition-all duration-300 hover:text-background"
             >
               <span className="relative z-10">Conoce mi trabajo</span>
               <span className="absolute inset-0 bg-gradient-to-r from-primary to-primary-foreground opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
@@ -104,7 +104,7 @@ export default function Hero() {
             <Button
               variant="outline"
               size="lg"
-              className="rounded-full px-8 border-primary text-primary hover:bg-primary/10 hover:text-primary"
+              className="rounded-full px-8 gap-2 border-primary text-primary hover:bg-primary/10"
             >
               Contáctame
             </Button>

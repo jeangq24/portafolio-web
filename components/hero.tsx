@@ -112,7 +112,7 @@ export default function Hero() {
           </a>
         </div>
       </div>
-      <div className="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce z-10">
+      <div className="absolute bottom-10  transform -translate-x-1/2 animate-bounce z-10">
         <a href="#about" aria-label="Scroll to About section">
           <ChevronDown className="h-8 w-8 text-primary" />
         </a>

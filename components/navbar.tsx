@@ -61,7 +61,7 @@ export default function Navbar() {
             </Link>
           ))}
           <Button variant="outline" className="gap-2 border-primary/20 text-primary hover:bg-primary/10" asChild>
-            <a href="/JeanCv.pdf" download="JeanSebastianGarzonCV.pdf" aria-label="Download CV">
+            <a href="/JeanSebastianGarzonCv.pdf" download="JeanSebastianGarzonCV.pdf" aria-label="Download CV">
               <Download className="h-4 w-4" />
               Descargar CV
             </a>

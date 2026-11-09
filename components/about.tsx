@@ -1,97 +1,72 @@
-"use client"
-
-import { useEffect, useState } from "react"
 import Image from "next/image"
-import { Badge } from "@/components/ui/badge"
+import SectionHeading from "@/components/section-heading"
 
 export default function About() {
-  const [isVisible, setIsVisible] = useState(false)
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting) {
-          setIsVisible(true)
-        }
-      },
-      { threshold: 0.1 },
-    )
-
-    const section = document.getElementById("about")
-    if (section) observer.observe(section)
-
-    return () => {
-      if (section) observer.unobserve(section)
-    }
-  }, [])
-
   const skills = [
     "JavaScript",
+    "TypeScript",
     "Next.js",
     "TailwindCss",
     "Node.js",
+    "NestJS",
     "Sql",
     "Sequelize",
     "PostgreSQL",
     "Git",
+    "Docker",
+    "AWS",
     "Firebase",
+    "Supabase",
     "Google Cloud",
     "API Integration",
-    "Scrum",
-    "Clean Code",
-    "Technical support"
+    "IA Integraciones",
+    "Orientacion a producto"
   ]
 
   return (
-    <section id="about" className="py-20 bg-background/50">
-      <div className="container mx-auto px-4">
-        <h2 className="text-3xl font-bold mb-16 text-center">
-          <span className="relative inline-block">
-            Sobre mí
-            <span className="absolute -bottom-2 left-0 w-full h-1 bg-primary rounded-full"></span>
-          </span>
-        </h2>
-
-        <div
-          className={`grid md:grid-cols-2 gap-12 items-center transition-all duration-1000 transform ${isVisible ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"
-            }`}
-        >
-
+    <section id="about" tabIndex={-1} aria-labelledby="about-title" className="portfolio-section">
+      <div className="portfolio-shell">
+        <SectionHeading id="about-title" number="01" eyebrow="Perfil" title="Sobre mí" />
+        <div className="grid items-start gap-12 md:grid-cols-[1.4fr_1fr] lg:gap-24">
           <div>
-            <h3 className="text-2xl font-bold mb-4">Desarrollador de software</h3>
-            <p className="text-muted-foreground mb-6">
-              Soy un desarrollador apasionado por construir soluciones digitales eficientes y escalables. Con 3 años de experiencia en desarrollo web, me especializo en crear aplicaciones robustas utilizando tecnologías modernas.
+            <h3 className="mb-6 text-xl font-medium md:text-2xl">Desarrollador de software</h3>
+            <p className="mb-5 text-muted-foreground">
+              Desarrollador de software Full Stack con más de 4 años de experiencia en construcción de aplicaciones web y
+              productos digitales. Experiencia en desarrollo frontend y backend, integración de APIs, gestión de datos y
+              participación en arquitecturas basadas en servicios.
+
             </p>
-            <p className="text-muted-foreground mb-8">
-              Mi enfoque está en la optimización del rendimiento, buenas prácticas de desarrollo y resolución de problemas complejos. Disfruto diseñando sistemas eficientes y transformando desafíos técnicos en soluciones innovadoras.
+            <p className="mb-10 text-muted-foreground">
+              Trabajo principalmente con TypeScript, React, Next.js, NestJS y SQL. He participado en equipos de desarrollo
+              colaborativos, trabajando en funcionalidades de producto, mantenimiento y evolución de aplicaciones.
+              Me interesa comprender los sistemas de forma integral, analizar problemas y construir soluciones mantenibles que
+              respondan a necesidades reales de negocio.
             </p>
 
-            <div>
-              <h4 className="text-lg font-semibold mb-3">Habilidades técnicas</h4>
-              <div className="flex flex-wrap gap-2">
+            <div className="border-t border-border pt-7">
+              <h4 className="mb-4 text-sm font-semibold">Habilidades técnicas</h4>
+              <ul aria-label="Habilidades técnicas" className="flex flex-wrap gap-2">
                 {skills.map((skill) => (
-                  <Badge key={skill} variant="outline" className="bg-primary/10 text-primary border-primary/20">
-                    {skill}
-                  </Badge>
+                  <li key={skill} className="skill-tag">{skill}</li>
                 ))}
-              </div>
+              </ul>
             </div>
           </div>
-
-          <div className="flex justify-center md:justify-center">
-            <div className="relative w-64 h-64 md:w-80 md:h-80 rounded-full overflow-hidden border-4 border-primary/20 p-2">
-              <div className="w-full h-full rounded-full overflow-hidden bg-gradient-to-br from-primary/20 to-background">
-                <Image
-                  src="/JeanDev.png?height=400&width=400"
-                  alt="Jean Sebastian Garzón - Desarrollador de software"
-                  width={400}
-                  height={400}
-                  className="w-full h-full object-cover rounded-full"
-                />
-              </div>
-              
+          <figure className="mx-auto w-full max-w-sm md:max-w-none">
+            <div className="relative aspect-[4/5] overflow-hidden rounded-sm bg-secondary">
+              <Image
+                src="/JeanDev.png"
+                alt="Jean Sebastian Garzón - Desarrollador de software"
+                fill
+                sizes="(max-width: 767px) 90vw, 40vw"
+                className="object-cover object-top grayscale"
+              />
             </div>
-          </div>
+            <figcaption className="mt-4 flex flex-wrap justify-between gap-2 text-xs text-muted-foreground">
+              <span>Jean Sebastian Garzón</span>
+              <span>Desarrollador de software</span>
+            </figcaption>
+          </figure>
         </div>
       </div>
     </section>

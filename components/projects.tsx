@@ -1,37 +1,22 @@
-"use client"
-
-import { useState, useEffect } from "react"
 import Image from "next/image"
-import { ArrowRight, Github, ExternalLink } from "lucide-react"
+import { ArrowUpRight, Github } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
+import SectionHeading from "@/components/section-heading"
 
 export default function Projects() {
-  const [isVisible, setIsVisible] = useState(false)
-  const [hoveredProject, setHoveredProject] = useState<number | null>(null)
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting) {
-          setIsVisible(true)
-        }
-      },
-      { threshold: 0.1 },
-    )
-
-    const section = document.getElementById("projects")
-    if (section) observer.observe(section)
-
-    return () => {
-      if (section) observer.unobserve(section)
-    }
-  }, [])
-
   const projects = [
     {
       id: 1,
+      title: "MotoTrack",
+      description:
+        "Este proyecto nació de una necesidad propia. Como conductor de moto en mi trabajo alterno, me di cuenta de lo tedioso que era llevar las cuentas en libretas o Excel. Necesitaba algo rápido, que se pudiera usar con una sola mano, con botones grandes para registrar domicilios o carreras en menos de 3 toques, y que me dijera exactamente cuánto me gané libre de gastos al final del día.",
+      image: "/logo_mototrack.png?height=400&width=600",
+      technologies: ["Next.js", "TailwindCss", "TypeScript", "Supabase", "PostgreSql"],
+      repoUrl: "https://github.com/jeangq24/MotoTrack",
+      demoUrl: "https://moto-track-seven.vercel.app/",
+    },
+    {
+      id: 2,
       title: "Loop Media",
       description:
         "Loop Media fue creado para escribir y leer sobre lo que sucede en todo el mundo, sin algoritmos que decidan qué contenido consumes o barreras del idioma. Queremos conectar a escritores y pensadores a nivel mundial, brindándoles acceso a tantos aspectos o “lados de la verdad.”",
@@ -41,7 +26,7 @@ export default function Projects() {
       demoUrl: "https://loopmedia.app/",
     },
     {
-      id: 2,
+      id: 3,
       title: "Bot Whatsapp | Gestion de Domicilios",
       description:
         "Para la gestion de un negocio local de domicilios se implemento un Bot de whatsapp como solucion a la carga operativa, automatizando procesos como la gestiona de servicios, clientes, coductores, quejas y reclamos.",
@@ -51,7 +36,7 @@ export default function Projects() {
       demoUrl: "https://youtu.be/ruxLJMqAixk",
     },
     {
-      id: 3,
+      id: 4,
       title: "BEST-P",
       description:
         "Landing page para BESTP, la página no solo proporciona una experiencia visual atractiva, sino que también integra funcionalidades avanzadas como el envío automático de correos electrónicos y la recepción de datos directamente en Google Sheets. Esta integración permite gestionar de manera eficiente y  optimizar las campañas publicitarias de manera fluida.",
@@ -62,7 +47,7 @@ export default function Projects() {
     },
    
     {
-      id: 4,
+      id: 5,
       title: "GesSalud",
       description:
         "GesSalud es un sistema administrativo que permite la gestion de personal, pacientes, especialistas, citas, pagos e historial medico. Este sistema es pensado para el desarrollo de centros de salud pequeños y medianos. (Experiencia academica)",
@@ -74,79 +59,46 @@ export default function Projects() {
   ]
 
   return (
-    <section id="projects" className="py-20 bg-gradient-to-b from-background to-background/95">
-      <div className="container mx-auto px-4">
-        <h2 className="text-3xl font-bold mb-16 text-center">
-          <span className="relative inline-block">
-            Proyectos destacados
-            <span className="absolute -bottom-2 left-0 w-full h-1 bg-primary rounded-full"></span>
-          </span>
-        </h2>
-
-        <div
-          className={`grid md:grid-cols-2 gap-8 transition-all duration-1000 transform ${
-            isVisible ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"
-          }`}
-        >
+    <section id="projects" tabIndex={-1} aria-labelledby="projects-title" className="portfolio-section inverse-section">
+      <div className="portfolio-shell">
+        <SectionHeading id="projects-title" number="02" eyebrow="Trabajo seleccionado" title="Proyectos destacados" />
+        <div className="grid gap-x-10 gap-y-16 md:grid-cols-2 lg:gap-x-14">
           {projects.map((project, index) => (
-            <Card
-              key={project.id}
-              className="overflow-hidden bg-card/50 backdrop-blur-sm border border-primary/10 hover:border-primary/30 transition-all duration-300"
-              onMouseEnter={() => setHoveredProject(index)}
-              onMouseLeave={() => setHoveredProject(null)}
-            >
-              <div className="relative h-48 overflow-hidden">
+            <article key={project.id} className="group flex min-w-0 flex-col">
+              <a href={project.demoUrl} target="_blank" rel="noopener noreferrer" aria-label={`Ver demo de ${project.title} (abre en otra pestaña)`} className="relative block aspect-[3/2] overflow-hidden rounded-sm bg-white">
                 <Image
-                  src={project.image || "/placeholder.svg"}
+                  src={project.image}
                   alt={project.title}
-                  width={600}
-                  height={400}
-                  className={`w-full h-full object-cover transition-transform duration-700 ${
-                    hoveredProject === index ? "scale-110" : "scale-100"
-                  }`}
+                  fill
+                  sizes="(max-width: 767px) 100vw, 50vw"
+                  className="object-contain transition-transform duration-500 group-hover:scale-[1.025] group-focus-within:scale-[1.025]"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-background to-transparent"></div>
+              </a>
+              <div className="mb-4 mt-6 flex items-start gap-4">
+                <span aria-hidden="true" className="pt-1 text-xs tabular-nums text-muted-foreground">0{index + 1}</span>
+                <h3 className="text-xl font-medium leading-snug md:text-2xl">{project.title}</h3>
               </div>
-              <CardHeader className="pb-2">
-                <h3 className="text-xl font-bold">{project.title}</h3>
-              </CardHeader>
-              <CardContent className="pb-4">
-                <p className="text-muted-foreground mb-4">{project.description}</p>
-                <div className="flex flex-wrap gap-2 mb-4">
-                  {project.technologies.map((tech) => (
-                    <Badge key={tech} variant="secondary" className="bg-primary/10 text-primary">
-                      {tech}
-                    </Badge>
-                  ))}
-                </div>
-              </CardContent>
-              <CardFooter className={`flex justify-between  pt-0`}>
-                <Button variant="outline" size="sm" className="gap-2 text-primary" asChild>
-                  {project.repoUrl && <a href={project.repoUrl} target="_blank" rel="noopener noreferrer">
-                    <Github className="h-4 w-4" />
-                    Repositorio
-                  </a>}
-                </Button>
-                <Button size="sm" className="gap-2" asChild>
-                  <a href={project.demoUrl} target="_blank" rel="noopener noreferrer">
-                    <ExternalLink className="h-4 w-4" />
-                    Demo
+              <p className="mb-6 text-sm leading-7 text-muted-foreground">{project.description}</p>
+              <ul aria-label={`Tecnologías de ${project.title}`} className="mb-7 flex flex-wrap gap-2">
+                {project.technologies.map((tech) => (
+                  <li key={tech} className="skill-tag">{tech}</li>
+                ))}
+              </ul>
+              <div className="mt-auto flex flex-wrap items-center justify-between gap-3 border-t border-border pt-5">
+                {project.repoUrl && (
+                  <a href={project.repoUrl} target="_blank" rel="noopener noreferrer" className="text-link min-h-11" aria-label={`Repositorio de ${project.title}`}>
+                    <Github aria-hidden="true" className="h-4 w-4" /> Repositorio
+                  </a>
+                )}
+                <Button variant="ghost" size="sm" asChild className="ml-auto">
+                  <a href={project.demoUrl} target="_blank" rel="noopener noreferrer" aria-label={`Demo de ${project.title}`}>
+                    Demo <ArrowUpRight aria-hidden="true" />
                   </a>
                 </Button>
-              </CardFooter>
-            </Card>
+              </div>
+            </article>
           ))}
         </div>
-
-        {/* <div className="mt-12 text-center">
-          <Button
-            variant="outline"
-            className="rounded-full px-8 border-primary text-primary hover:bg-primary/10 hover:text-primary group"
-          >
-            Ver todos los proyectos
-            <ArrowRight className="ml-2 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
-          </Button>
-        </div> */}
       </div>
     </section>
   )

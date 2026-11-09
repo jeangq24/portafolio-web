@@ -1,5 +1,15 @@
 // utils/emailTemplate.ts
+const escapeHtml = (value: string) => value
+  .replace(/&/g, '&amp;')
+  .replace(/</g, '&lt;')
+  .replace(/>/g, '&gt;')
+  .replace(/"/g, '&quot;')
+  .replace(/'/g, '&#39;');
+
 export const createEmailTemplate = (data: { name: string; email: string; message: string }) => {
+    const name = escapeHtml(data.name);
+    const email = escapeHtml(data.email);
+    const message = escapeHtml(data.message);
     return `
       <div style="
         max-width: 600px;
@@ -16,13 +26,13 @@ export const createEmailTemplate = (data: { name: string; email: string; message
           border-radius: 0.5rem;
           margin-bottom: 1.5rem;
         ">
-          <h2 style="color: white; margin: 0;">Nuevo mensaje de ${data.name}</h2>
+          <h2 style="color: white; margin: 0;">Nuevo mensaje de ${name}</h2>
         </div>
         
         <div style="padding: 1rem;">
           <div style="margin-bottom: 1rem;">
-            <p style="margin: 0; color: #64748b;"><strong>De:</strong> ${data.name}</p>
-            <p style="margin: 0; color: #64748b;"><strong>Email:</strong> ${data.email}</p>
+            <p style="margin: 0; color: #64748b;"><strong>De:</strong> ${name}</p>
+            <p style="margin: 0; color: #64748b;"><strong>Email:</strong> ${email}</p>
           </div>
           
           <div style="
@@ -31,7 +41,7 @@ export const createEmailTemplate = (data: { name: string; email: string; message
             border-radius: 0.5rem;
             border: 1px solid #e2e8f0;
           ">
-            <p style="margin: 0; color: #1e293b; white-space: pre-wrap;">${data.message}</p>
+            <p style="margin: 0; color: #1e293b; white-space: pre-wrap;">${message}</p>
           </div>
           
           <div style="

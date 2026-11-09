@@ -2,40 +2,21 @@
 
 import type React from "react"
 
-import { useState, useEffect } from "react"
-import { Github, Linkedin, Mail, Download, Send } from "lucide-react"
+import { useState } from "react"
+import { Github, Linkedin, Mail, Download, Send, Loader2, ArrowUpRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
-import { Card, CardContent } from "@/components/ui/card"
+import SectionHeading from "@/components/section-heading"
 import { useSendEmail } from '@/hooks/useSendEmail';
 
 export default function Contact() {
-  const [isVisible, setIsVisible] = useState(false)
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     message: "",
   })
   const { sendEmail, loading, error, success } = useSendEmail();
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting) {
-          setIsVisible(true)
-        }
-      },
-      { threshold: 0.1 },
-    )
-
-    const section = document.getElementById("contact")
-    if (section) observer.observe(section)
-
-    return () => {
-      if (section) observer.unobserve(section)
-    }
-  }, [])
-
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target
     setFormData((prev) => ({ ...prev, [name]: value }))
@@ -51,73 +32,53 @@ export default function Contact() {
   };
 
   return (
-    <section id="contact" className="py-20 bg-background/50">
-      <div className="container mx-auto px-4">
-        <h2 className="text-3xl font-bold mb-16 text-center">
-          <span className="relative inline-block">
-            Contacto
-            <span className="absolute -bottom-2 left-0 w-full h-1 bg-primary rounded-full"></span>
-          </span>
-        </h2>
-
-        <div
-          className={`grid md:grid-cols-2 gap-12 transition-all duration-1000 transform ${isVisible ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"
-            }`}
-        >
+    <section id="contact" tabIndex={-1} aria-labelledby="contact-title" className="portfolio-section">
+      <div className="portfolio-shell">
+        <SectionHeading id="contact-title" number="03" eyebrow="Conectemos" title="Contacto" />
+        <div className="grid gap-14 md:grid-cols-2 lg:gap-24">
           <div>
-            <h3 className="text-2xl font-bold mb-6">¡Hablemos!</h3>
-            <p className="text-muted-foreground mb-8">
+            <h3 className="display-type mb-6 text-5xl italic">¡Hablemos!</h3>
+            <p className="mb-9 max-w-md text-muted-foreground">
               Estoy interesado en oportunidades freelance y proyectos desafiantes. Si tienes alguna pregunta o
               propuesta, no dudes en contactarme.
             </p>
 
-            <div className="space-y-6">
-              <Card className="bg-card/50 backdrop-blur-sm border border-primary/10">
-                <CardContent className="flex items-center gap-4 p-4">
-                  <div className="bg-primary/10 p-3 rounded-full">
-                    <Mail className="h-6 w-6 text-primary" />
-                  </div>
-                  <div>
-                    <p className="text-sm text-muted-foreground">Email</p>
-                    <a
-                      href="mailto:jeangarzon24@gmail.com"
-                      className="text-foreground hover:text-primary transition-colors"
-                    >
-                      jeangarzon24@gmail.com
-                    </a>
-                  </div>
-                </CardContent>
-              </Card>
-
-              <div className="flex flex-col gap-4">
-                <h4 className="text-lg font-semibold">Redes sociales</h4>
-                <div className="flex gap-4">
+            <div className="space-y-8">
+              <div className="border-y border-border py-6">
+                <p className="mb-3 text-xs text-muted-foreground">Email</p>
+                <a href="mailto:jeangarzon24@gmail.com" className="group flex items-center gap-3 text-sm sm:text-base">
+                  <Mail aria-hidden="true" className="h-4 w-4 shrink-0" />
+                  <span className="break-all">jeangarzon24@gmail.com</span>
+                  <ArrowUpRight aria-hidden="true" className="ml-auto h-4 w-4 shrink-0 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+                </a>
+              </div>
+              <div>
+                <h4 className="mb-3 text-sm font-medium">Redes sociales</h4>
+                <div className="flex gap-3">
                   <Button
                     variant="outline"
                     size="icon"
-                    className="rounded-full border-primary/20 hover:bg-primary/10 hover:text-primary"
                     asChild
                   >
-                    <a href="https://github.com/jeangq24" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
-                      <Github className="h-5 w-5" />
+                    <a href="https://github.com/jeangq24" target="_blank" rel="noopener noreferrer" aria-label="GitHub" title="GitHub">
+                      <Github aria-hidden="true" />
                     </a>
                   </Button>
                   <Button
                     variant="outline"
                     size="icon"
-                    className="rounded-full border-primary/20 hover:bg-primary/10 hover:text-primary"
                     asChild
                   >
-                    <a href="https://www.linkedin.com/in/jeangarzon/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
-                      <Linkedin className="h-5 w-5" />
+                    <a href="https://www.linkedin.com/in/jeangarzon/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" title="LinkedIn">
+                      <Linkedin aria-hidden="true" />
                     </a>
                   </Button>
                 </div>
               </div>
 
-              <Button variant="outline" className="gap-2 border-primary/20 text-primary hover:bg-primary/10" asChild>
-                <a href="/JeanCv.pdf" download="JeanSebastianGarzonCV.pdf" aria-label="Download CV">
-                  <Download className="h-4 w-4" />
+              <Button variant="outline" asChild>
+                <a href="/JeanSebastianGarzonCV.pdf" download="JeanSebastianGarzonCV.pdf">
+                  <Download aria-hidden="true" />
                   Descargar CV
                 </a>
               </Button>
@@ -125,8 +86,9 @@ export default function Contact() {
           </div>
 
           <div>
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div className="space-y-4">
+            <form onSubmit={handleSubmit} aria-label="Formulario de contacto" aria-busy={loading}>
+              <fieldset disabled={loading} className="min-w-0 space-y-6">
+                <legend className="sr-only">Enviar un mensaje</legend>
                 <div>
                   <label htmlFor="name" className="block text-sm font-medium mb-2">
                     Nombre
@@ -134,11 +96,12 @@ export default function Contact() {
                   <Input
                     id="name"
                     name="name"
+                    autoComplete="name"
+                    maxLength={120}
                     value={formData.name}
                     onChange={handleChange}
                     placeholder="Tu nombre"
                     required
-                    className="bg-card/50 backdrop-blur-sm border border-primary/10 focus-visible:ring-primary"
                   />
                 </div>
                 <div>
@@ -149,11 +112,12 @@ export default function Contact() {
                     id="email"
                     name="email"
                     type="email"
+                    autoComplete="email"
+                    maxLength={254}
                     value={formData.email}
                     onChange={handleChange}
                     placeholder="tu@email.com"
                     required
-                    className="bg-card/50 backdrop-blur-sm border border-primary/10 focus-visible:ring-primary"
                   />
                 </div>
                 <div>
@@ -163,39 +127,25 @@ export default function Contact() {
                   <Textarea
                     id="message"
                     name="message"
+                    maxLength={5000}
                     value={formData.message}
                     onChange={handleChange}
                     placeholder="Tu mensaje..."
                     rows={5}
                     required
-                    className="bg-card/50 backdrop-blur-sm border border-primary/10 focus-visible:ring-primary"
                   />
                 </div>
+              </fieldset>
+              <div role="status" aria-live="polite" aria-atomic="true" className="min-h-12 py-3 text-sm">
+                {loading ? <p className="text-muted-foreground">Enviando mensaje...</p> : error ? <p className="text-destructive">{error}</p> : success ? <p>¡Mensaje enviado con éxito!</p> : null}
               </div>
-              {error && (
-                <p className="text-sm text-destructive text-center animate-pulse">
-                  {error}
-                </p>
-              )}
-
-              {success && (
-                <p className="text-sm text-primary text-center animate-pulse">
-                  ¡Mensaje enviado con éxito!
-                </p>
-              )}
               <Button
                 type="submit"
-                className="w-full gap-2 group"
+                className="group w-full justify-between"
                 disabled={loading}
               >
-                {loading ? (
-                  <div className="h-4 w-4 border-2 border-background border-t-transparent rounded-full animate-spin" />
-                ) : (
-                  <>
-                    Enviar mensaje
-                    <Send className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
-                  </>
-                )}
+                {loading ? "Enviando mensaje..." : "Enviar mensaje"}
+                {loading ? <Loader2 aria-hidden="true" className="animate-spin" /> : <Send aria-hidden="true" className="transition-transform duration-200 group-hover:translate-x-1" />}
               </Button>
             </form>
           </div>

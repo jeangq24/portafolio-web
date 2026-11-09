@@ -18,7 +18,21 @@ export const useSendEmail = () => {
   };
 
   const sendEmail = async (data: EmailData): Promise<boolean> => {
-    if (!validateEmail(data.email)) {
+    setSuccess(false);
+    setError(null);
+
+    const payload = {
+      name: data.name.trim(),
+      email: data.email.trim(),
+      message: data.message.trim(),
+    };
+
+    if (!payload.name || !payload.message) {
+      setError('Por favor completa tu nombre y mensaje');
+      return false;
+    }
+
+    if (!validateEmail(payload.email)) {
       setError('Por favor ingresa un correo electrónico válido');
       return false;
     }
@@ -32,12 +46,15 @@ export const useSendEmail = () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(data),
+        body: JSON.stringify(payload),
       });
+
+      const result = await response.json().catch(() => null);
   
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || 'Error al enviar el mensaje');
+      if (!response.ok || result?.success !== true) {
+        throw new Error(
+          typeof result?.error === 'string' ? result.error : 'Error al enviar el mensaje'
+        );
       }
   
       setSuccess(true);

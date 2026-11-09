@@ -8,28 +8,58 @@ import { Button } from "@/components/ui/button"
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const menuRef = useRef<HTMLDivElement>(null)
+  const [activeSection, setActiveSection] = useState("home")
+  const headerRef = useRef<HTMLElement>(null)
+  const toggleRef = useRef<HTMLButtonElement>(null)
+  const mobileNavRef = useRef<HTMLElement>(null)
 
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 10)
     }
-    window.addEventListener("scroll", handleScroll)
+    handleScroll()
+    window.addEventListener("scroll", handleScroll, { passive: true })
 
     const handleClickOutside = (event: MouseEvent) => {
-      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+      if (headerRef.current && !headerRef.current.contains(event.target as Node)) {
         setIsMenuOpen(false)
       }
     }
     document.addEventListener("mousedown", handleClickOutside)
 
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) setActiveSection(entry.target.id)
+      })
+    }, { rootMargin: "-15% 0px -65% 0px" })
+    document.querySelectorAll("main > section[id]").forEach((section) => observer.observe(section))
+
+    const desktop = window.matchMedia("(min-width: 768px)")
+    const closeOnDesktop = () => {
+      if (desktop.matches) setIsMenuOpen(false)
+    }
+    desktop.addEventListener("change", closeOnDesktop)
+
     return () => {
       window.removeEventListener("scroll", handleScroll)
       document.removeEventListener("mousedown", handleClickOutside)
+      desktop.removeEventListener("change", closeOnDesktop)
+      observer.disconnect()
     }
   }, [])
 
-  const toggleMenu = () => setIsMenuOpen(!isMenuOpen)
+  useEffect(() => {
+    if (!isMenuOpen) return
+    mobileNavRef.current?.querySelector<HTMLAnchorElement>("a")?.focus()
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setIsMenuOpen(false)
+        toggleRef.current?.focus()
+      }
+    }
+    document.addEventListener("keydown", closeOnEscape)
+    return () => document.removeEventListener("keydown", closeOnEscape)
+  }, [isMenuOpen])
 
   const navLinks = [
     { name: "Inicio", href: "#home" },
@@ -40,57 +70,58 @@ export default function Navbar() {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled ? "bg-background/80 backdrop-blur-md shadow-md" : "bg-transparent"
-        }`}
+      ref={headerRef}
+      className={`fixed inset-x-0 top-0 z-50 border-b bg-background/95 transition-[border-color,box-shadow] duration-300 ${isScrolled || isMenuOpen ? "border-border shadow-sm" : "border-transparent"}`}
     >
-      <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-        <Link href="#home" className="text-xl font-bold text-primary">
-          <span className="text-foreground">Jean</span>
-          <span className="text-primary">Dev</span>
+      <div className="portfolio-shell flex h-20 items-center justify-between gap-6">
+        <Link href="#home" onClick={() => setIsMenuOpen(false)} aria-label="JeanDev, inicio" className="text-lg font-semibold">
+          Jean<span className="font-normal text-muted-foreground">Dev</span><span aria-hidden="true">.</span>
         </Link>
 
-        {/* Desktop Navigation */}
-        <nav className="hidden md:flex items-center space-x-8">
+        <nav aria-label="Navegación principal" className="hidden items-center gap-6 md:flex lg:gap-8">
           {navLinks.map((link) => (
             <Link
               key={link.name}
               href={link.href}
-              className="text-muted-foreground hover:text-primary transition-colors duration-300"
+              aria-current={activeSection === link.href.slice(1) ? "location" : undefined}
+              className="nav-link"
             >
               {link.name}
             </Link>
           ))}
-          <Button variant="outline" className="gap-2 border-primary/20 text-primary hover:bg-primary/10" asChild>
-            <a href="/JeanSebastianGarzonCv.pdf" download="JeanSebastianGarzonCV.pdf" aria-label="Download CV">
-              <Download className="h-4 w-4" />
+          <Button variant="outline" size="sm" asChild>
+            <a href="/JeanSebastianGarzonCV.pdf" download="JeanSebastianGarzonCV.pdf">
+              <Download aria-hidden="true" />
               Descargar CV
             </a>
           </Button>
         </nav>
 
-        {/* Mobile Navigation Toggle */}
-        <Button variant="ghost" size="icon" className="md:hidden" onClick={toggleMenu} aria-label="Toggle menu">
-          {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+        <Button ref={toggleRef} variant="ghost" size="icon" className="md:hidden" onClick={() => setIsMenuOpen((open) => !open)} aria-label={isMenuOpen ? "Cerrar menú" : "Abrir menú"} aria-expanded={isMenuOpen} aria-controls="mobile-navigation" title={isMenuOpen ? "Cerrar menú" : "Abrir menú"}>
+          {isMenuOpen ? <X aria-hidden="true" /> : <Menu aria-hidden="true" />}
         </Button>
       </div>
 
-      {/* Mobile Navigation Menu */}
       {isMenuOpen && (
-        <div ref={menuRef} className="md:hidden bg-background/95 backdrop-blur-md">
-          <nav className="container mx-auto px-4 py-4 flex flex-col space-y-4">
+        <div className="border-t border-border bg-background md:hidden">
+          <nav ref={mobileNavRef} id="mobile-navigation" aria-label="Navegación móvil" className="portfolio-shell intro-reveal flex flex-col gap-2 py-6">
             {navLinks.map((link) => (
               <Link
                 key={link.name}
                 href={link.href}
-                className="text-muted-foreground hover:text-primary transition-colors duration-300 py-2"
-                onClick={() => setIsMenuOpen(false)}
+                aria-current={activeSection === link.href.slice(1) ? "location" : undefined}
+                className="nav-link py-3"
+                onClick={() => {
+                  setIsMenuOpen(false)
+                  document.getElementById(link.href.slice(1))?.focus({ preventScroll: true })
+                }}
               >
                 {link.name}
               </Link>
             ))}
-            <Button variant="outline" className="gap-2 border-primary/20 text-primary hover:bg-primary/10" asChild>
-              <a href="/JeanSebastianGarzonCV.pdf" download="JeanSebastianGarzonCV.pdf" aria-label="Download CV">
-                <Download className="h-4 w-4" />
+            <Button variant="outline" className="mt-3" asChild>
+              <a href="/JeanSebastianGarzonCV.pdf" download="JeanSebastianGarzonCV.pdf">
+                <Download aria-hidden="true" />
                 Descargar CV
               </a>
             </Button>
